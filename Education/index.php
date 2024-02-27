@@ -29,11 +29,19 @@
         <h1 class="header__titlw">Домашняя работа: Hello, World!</h1>
     </header>
     <main>
-
     <?php
-    $content = "Hello, World!";
-    echo $content ;
+$array = [1, 2, 3, 4, 5];
+$product = array_product($array);
+echo "Брат, твое произведение: $product";
 ?>
+
+
+
+
+
+
+
+
 
     </main>
     <footer>
