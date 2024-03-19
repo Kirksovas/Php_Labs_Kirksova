@@ -57,28 +57,30 @@
       border-radius: 5px;
       border: #383838;
     }
+
     #back {
       background-color: #5c5c5c;
       color: #fff;
       border-radius: 5px;
       border: #383838;
     }
+
     header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px;
-            background-color: #f0f0f0; 
-        }
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px;
+      background-color: #f0f0f0;
+    }
 
-        .header__img {
-            margin-left: 0;
-        }
+    .header__img {
+      margin-left: 0;
+    }
 
-        .header__title {
-            text-align: center;
-            margin: 0;
-        }
+    .header__title {
+      text-align: center;
+      margin: 0;
+    }
   </style>
 </head>
 
@@ -88,7 +90,7 @@
     <h1 class="header__title">Домашняя работа: Calculator.</h1>
   </header>
   <main>
-    
+
     <div id="calculator">
       <div id="display"></div>
       <button onclick="appendToDisplay('1')">1</button>
@@ -111,46 +113,77 @@
       <button onclick="appendToDisplay(')')">)</button>
       <button onclick="appendToDisplay('/')">/</button>
       <br>
+      <button onclick="appendToDisplay('sin(')">sin</button>
+      <button onclick="appendToDisplay('cos(')">cos</button>
+      <button onclick="appendToDisplay('tan(')">tan</button>
+      <br>
       <button id="clear" onclick="clearDisplay()">C</button>
       <button id="equals" onclick="calculate()">=</button>
       <button id="back" onclick="backspace()">⌫</button>
     </div>
     <script>
       function appendToDisplay(value) {
-  document.getElementById("display").innerText += value;
-}
-
-function clearDisplay() {
-  document.getElementById("display").innerText = "";
+        document.getElementById("display").innerText += value;
+      }
+    
+      function clearDisplay() {
+        document.getElementById("display").innerText = "";
+      }
+    
+      function updateDisplay(value) {
+        document.getElementById("display").innerText = value;
+      }
+    
+      function degreesToRadians(degrees) {
+  return degrees * (Math.PI / 180);
 }
 
 function calculate() {
   const userInput = document.getElementById("display").innerText;
 
-  fetch(`calc.php?expression=${encodeURIComponent(userInput)}`)
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.error) {
-        updateDisplay("Ошибка: " + data.error);
-      } else {
-        updateDisplay(data.result);
+  const trigFunctionRegex = /(sin|cos|tan)\((-?\d+(\.\d+)?)\)/;
+  const match = userInput.match(trigFunctionRegex);
+
+  if (match) {
+    const trigFunction = match[1];
+    const parameterDegrees = parseFloat(match[2]);
+
+    fetch(`calc.php?function=${trigFunction}&parameter=${parameterRadians}`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          updateDisplay("Ошибка: " + data.error);
+        } else {
+          updateDisplay(data.result);
+        }
+      })
+      .catch((error) => {
+        console.error("Ошибка при запросе к серверу:", error);
+        updateDisplay("Произошла ошибка при запросе к серверу.");
+      });
+  } else {
+    fetch(`calc.php?expression=${encodeURIComponent(userInput)}`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          updateDisplay("Ошибка: " + data.error);
+        } else {
+          updateDisplay(data.result);
+        }
+      })
+      .catch((error) => {
+        console.error("Ошибка при запросе к серверу:", error);
+        updateDisplay("Произошла ошибка при запросе к серверу.");
+      });
+  }
+}
+      function backspace() {
+        let currentExpression = document.getElementById("display").innerText;
+        document.getElementById("display").innerText = currentExpression.slice(0, -1);
       }
-    })
-    .catch((error) => {
-      console.error("Ошибка:", error);
-    });
-}
-
-function updateDisplay(value) {
-  document.getElementById("display").innerText = value;
-}
-function backspace() {
-  let currentExpression = document.getElementById("display").innerText;
-  document.getElementById("display").innerText = currentExpression.slice(0, -1);
-}
-
     </script>
     
+
   </main>
   <footer>
 

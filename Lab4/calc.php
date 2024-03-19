@@ -1,9 +1,36 @@
 <?php
+require_once 'trigFunctions.php';
+
+if (isset($_GET['function']) && isset($_GET['parameter'])) {
+    $function_name = $_GET['function'];
+    $parameter = $_GET['parameter'];
+
+    if (!is_numeric($parameter)) {
+        echo json_encode(['error' => 'Неверный параметр для вычисления тригонометрической функции.']);
+        exit;
+    }
+
+    $result = calculateTrigonometric($function_name, $parameter);
+    echo json_encode(['result' => $result]);
+} elseif (isset($_GET['expression'])) {
+    $userExpression = $_GET['expression'];
+
+    if (!is_string($userExpression)) {
+        echo json_encode(['error' => 'Неверное выражение для вычисления.']);
+        exit;
+    }
+
+    $result = calculate($userExpression);
+    echo json_encode(['result' => $result]);
+} else {
+    echo json_encode(['error' => 'Отсутствует выражение для вычисления.']);
+    exit;
+}
 
 function calculate($expression) {
     $expression = str_replace(' ', '', $expression);
 
-    if (!preg_match('/^[\d\+\-\*\/\(\)]+$/', $expression)) {
+    if (!preg_match('/^[\d\+\-\*\/\(\)sincostan]+$/', $expression)) {
         return 'Символы в выражении.';
     }
 
@@ -99,13 +126,5 @@ function applyOperator($operator, $operand1, $operand2) {
         default:
             throw new Exception('Невыбран оператор');
     }
-}
-
-if (isset($_GET['expression'])) {
-    $userExpression = $_GET['expression'];
-    $result = calculate($userExpression);
-    echo json_encode(['result' => $result]);
-} else {
-    echo json_encode(['error' => 'Отсутствует выражение для вычисления.']);
 }
 ?>

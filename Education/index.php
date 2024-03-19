@@ -30,19 +30,19 @@
     </header>
     <main>
     <?php
-$array = [1, 2, 3, 4, 5];
-$product = array_product($array);
-echo "Брат, твое произведение: $product";
+$file = 'test.txt';
+$folder = 'dir/';
+
+if (copy($file, $folder . 'test.txt')) {
+if (unlink($file)) {
+echo "Файл успешно перемещен в папку 'dir'.";
+} else {
+echo "Произошла ошибка при удалении исходного файла.";
+}
+} else {
+echo "Произошла ошибка при перемещении файла в папку 'dir'.";
+}
 ?>
-
-
-
-
-
-
-
-
-
     </main>
     <footer>
 
