@@ -5,14 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Регистрация</title>
     <style>
-        /* Стили для формы регистрации */
         .register-form {
             margin: 50px auto;
             width: 300px;
             text-align: center;
         }
 
-        /* Стили для кнопки */
         .submit-button {
             background-color: #4CAF50;
             color: white;

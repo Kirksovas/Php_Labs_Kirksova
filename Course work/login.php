@@ -5,14 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Авторизация</title>
     <style>
-        /* Стили для формы авторизации */
         .login-form {
             margin: 50px auto;
             width: 300px;
             text-align: center;
         }
 
-        /* Стили для кнопки */
         .submit-button {
             background-color: #4CAF50;
             color: white;
@@ -26,7 +24,6 @@
             cursor: pointer;
         }
 
-        /* Стили для ссылки-кнопки */
         .register-button {
             background-color: #008CBA;
             color: white;
@@ -51,7 +48,6 @@
             <input type="password" id="password" name="password" required><br><br>
             <input type="submit" value="Войти" class="submit-button">
         </form>
-        <!-- Ссылка для регистрации -->
         <a href="registration.php" class="register-button">Регистрация</a>
     </div>
 </body>
