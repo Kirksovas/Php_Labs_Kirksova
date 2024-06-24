@@ -106,7 +106,7 @@
                 $hashtag_name = $_POST['hashtag_name'];
                 $field_id = $_POST['field_id'];
 
-                $db = new mysqli('localhost', 'пользователь', 'пароль', 'имя_базы_данных');
+                $db = new mysqli('localhost', 'root', '', 'sorter');
                 if ($db->connect_error) {
                     die("Ошибка подключения к базе данных: " . $db->connect_error);
                 }
