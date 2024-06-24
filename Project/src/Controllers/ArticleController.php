@@ -23,22 +23,22 @@ class ArticleController
         $articles = Article::findAll(); //получаем
         $this->view->renderHtml('articles/index.php', ['articles' => $articles]); //отображаем
     }
-    // Метод для отображения одной статьи по ID
+    // Метод для отображения одной статьи по айди
     public function show(int $id)
     {
-        $article = Article::getById($id); // получаем id
+        $article = Article::getById($id); // получаем айди
         if ($article === [] or $article === null) { //проверяем наличие
-            $this->view->renderHtml('errors/error.php', [], 404);
+            $this->view->renderHtml('errors/error.php', [], 404); //перенаправление на страницу ошибки
             return;
         }
-        $user = User::getFieldById('nickname', $article->getAuthorId());
-        $comments = Comment::getAllByArticleId($id);
+        $user = User::getFieldById('nickname', $article->getAuthorId()); //получаем никнейм и индификатор автора статьи 
+        $comments = Comment::getAllByArticleId($id); // получаем все комментарии для статьи с идентификатором
         $this->view->renderHtml('/articles/show.php', ['article' => $article, 'user' => $user, 'comments' => $comments]);  // Отображение страницы статьи с данными статьи, автора и комментариев
     }
     // Метод для отображения страницы создания статьи
     public function create()
     {
-        return $this->view->renderHtml('articles/create.php');
+        return $this->view->renderHtml('articles/create.php'); // Отрисовывает HTML-страницу для создания статьи.
     }
     // Метод для сохранения новой статьи
     public function store()
@@ -48,7 +48,7 @@ class ArticleController
         $article->setName($_POST['name']);
         $article->setText($_POST['text']);
         $article->setAuthorId($_POST['authorId']);
-        $article->save(); // Сохранение статьи в базе данных
+        $article->save(); // Сохранение статьи в бд
         header('Location:student-231/Project/www/articles'); // Перенаправление на страницу со списком статей
     }
     // Метод для отображения страницы редактирования статьи
@@ -61,14 +61,14 @@ class ArticleController
     // Метод для обновления статьи
     public function update($id)
     {
-        $article = Article::getById($id);
-        $article->setName($_POST['name']);
-        $article->setText($_POST['text']);
-        $article->setAuthorId($_POST['authorId']);
-        $article->save();
-        header('Location:' . dirname($_SERVER['SCRIPT_NAME']) . '/article/' . $article->getId());
+        $article = Article::getById($id); // Получаем объект статьи по ее ID.
+$article->setName($_POST['name']); // Устанавливаем новое название статьи из POST-запроса.
+$article->setText($_POST['text']); // Устанавливаем новый текст статьи из POST-запроса.
+$article->setAuthorId($_POST['authorId']); // Устанавливаем новый ID автора статьи из POST-запроса.
+$article->save(); // Сохраняем изменения в базе данных.
+header('Location:' . dirname($_SERVER['SCRIPT_NAME']) . '/article/' . $article->getId()); // Перенаправляем пользователя на страницу редактирования статьи.
+
     }
-    // Метод для удаления статьи
     // Метод для удаления статьи
     public function delete($id)
     {
